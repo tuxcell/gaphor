@@ -58,6 +58,10 @@ def shared_association_config(assoc_item: diagramitems.AssociationItem) -> None:
     create_association(assoc_item, AssociationType.SHARED)
 
 
+def partition_config(partition_item: diagramitems.PartitionItem) -> None:
+    partition_item.subject.name = "Partition"
+
+
 # Actions: ((section (name, label, icon_name, shortcut)), ...)
 uml_toolbox_actions: ToolboxDefinition = (
     (
@@ -328,7 +332,11 @@ uml_toolbox_actions: ToolboxDefinition = (
                 gettext("Partition"),
                 "gaphor-partition-symbolic",
                 "<Shift>P",
-                item_factory=PlacementTool.new_item_factory(diagramitems.PartitionItem),
+                item_factory=PlacementTool.new_item_factory(
+                    diagramitems.PartitionItem,
+                    UML.ActivityPartition,
+                    config_func=partition_config,
+                ),
                 handle_index=SE,
             ),
             ToolDef(
