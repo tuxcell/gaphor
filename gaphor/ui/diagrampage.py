@@ -134,6 +134,7 @@ class DiagramPage:
         view.connect("selection-changed", self._on_view_selection_changed)
         view.connect_after("key-press-event", self._on_key_press_event)
         view.connect("drag-data-received", self._on_drag_data_received)
+        view.connect("scroll-event", self.on_scroll)
 
         self.view = view
 
@@ -303,6 +304,14 @@ class DiagramPage:
         view.bounding_box_painter = BoundingBoxPainter(item_painter)
 
         view.queue_draw_refresh()
+
+    def on_scroll(self, btn, event):
+        """Handle the mouse wheel to zoom in and out"""
+        if event.direction == Gdk.ScrollDirection.UP:
+            self.zoom_in()
+        elif event.direction == Gdk.ScrollDirection.DOWN:
+            self.zoom_out()
+        return True 
 
     def _on_key_press_event(self, view, event):
         """Handle the 'Delete' key.
